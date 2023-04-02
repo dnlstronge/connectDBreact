@@ -35,7 +35,8 @@ function App() {
         <p>LOADING...</p>
       </div></section> }
       <section>
-        <MoviesList movies={movies} />
+      {!isPending && 
+        <MoviesList movies={movies} />}
       </section>
     </React.Fragment>
   );
