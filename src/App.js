@@ -14,12 +14,12 @@ function App() {
     try {
       setIsPending(!isPending);
       setError(null) // clear prev errors
-      const response = await fetch("https://swapi.dev/api/film");
+      const response = await fetch("https://swapi.dev/api/films/");
       const data = await response.json();
   
 
       if(!response.ok) {
-        throw new Error(`Ooops, Error ${response.status}`)
+        throw new Error(`Ooops, Error: ${response.statusCode}`)
       }
       const transformedMovies = data.results.map((movieData) => {
         return {
@@ -45,8 +45,8 @@ function App() {
       <section>
         {!isPending && movies.length > 0 && <MoviesList movies={movies} />}
         {!isPending && movies.length === 0 && <p>No movies found</p>}
-        {error && <p>{error}</p>}
-        {isPending && error && <p>LOADING...</p>}
+        {error && !isPending && <p>{error}</p>}
+        {isPending && !error && <p>LOADING...</p>}
       </section>
     </React.Fragment>
   );
