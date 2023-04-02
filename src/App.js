@@ -6,10 +6,10 @@ import { useState } from "react";
 
 function App() {
   const [movies, setMovies] = useState([]);
-  const [isPending, setIsPending] = useState(false)
+  const [isPending, setIsPending] = useState(false);
 
   async function fetchMoviesHandler() {
-    setIsPending(!isPending)
+    setIsPending(!isPending);
     const response = await fetch("https://swapi.dev/api/films/");
     const data = await response.json();
 
@@ -22,7 +22,7 @@ function App() {
       };
     });
     setMovies(transformedMovies);
-    setIsPending(false)
+    setIsPending(false);
   }
 
   return (
@@ -30,13 +30,9 @@ function App() {
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
-      {isPending && 
-      <section><div>
-        <p>LOADING...</p>
-      </div></section> }
       <section>
-      {!isPending && 
-        <MoviesList movies={movies} />}
+        {!isPending && <MoviesList movies={movies} />}
+        {isPending && <p>LOADING...</p>}
       </section>
     </React.Fragment>
   );
