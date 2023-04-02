@@ -5,15 +5,13 @@ import "./App.css";
 import { useState } from "react";
 
 function App() {
-  const [movies, setMovies] = useState();
+  const [movies, setMovies] = useState([]);
 
-  function fetchMoviesHandler() {
-    fetch("https://swapi.dev/api/films/")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const transformedMovies = data.results.map((movieData) => {
+  async function fetchMoviesHandler() {
+   const response = await fetch("https://swapi.dev/api/films/")
+   const data = await response.json()
+  
+   const transformedMovies = data.results.map((movieData) => {
           return {
             id: movieData.episode_id,
             title: movieData.title,
@@ -22,8 +20,8 @@ function App() {
           };
         });
         setMovies(transformedMovies);
-      }); // get req by default & returns a promise
-  }
+      }
+  
 
   return (
     <React.Fragment>
