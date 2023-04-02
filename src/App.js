@@ -7,20 +7,19 @@ import { useState } from "react";
 function App() {
   const [movies, setMovies] = useState([]);
   const [isPending, setIsPending] = useState(false);
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
   async function fetchMoviesHandler() {
+    setIsPending(!isPending);
+    setError(null); // clear prev errors
 
     try {
-      setIsPending(!isPending);
-      setError(null) // clear prev errors
+      if (!response.ok) {
+        throw new Error(`Ooops, Error: ${response.statusCode}`);
+      }
       const response = await fetch("https://swapi.dev/api/films/");
       const data = await response.json();
-  
 
-      if(!response.ok) {
-        throw new Error(`Ooops, Error: ${response.statusCode}`)
-      }
       const transformedMovies = data.results.map((movieData) => {
         return {
           id: movieData.episode_id,
@@ -30,11 +29,11 @@ function App() {
         };
       });
       setMovies(transformedMovies);
-      setIsPending(false);  
+      setIsPending(false);
     } catch (error) {
-      setError(error.message)
+      setError(error.message);
     }
-    
+    setIsPending(false);
   }
 
   return (
