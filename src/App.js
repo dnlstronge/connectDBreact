@@ -24,7 +24,7 @@ function App() {
         <button>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={MoviesList} />
+        <MoviesList movies={moviesList} />
       </section>
     </React.Fragment>
   );
