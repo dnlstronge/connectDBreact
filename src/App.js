@@ -7,6 +7,7 @@ import { useState } from "react";
 function App() {
   const [movies, setMovies] = useState([]);
   const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(false)
 
   async function fetchMoviesHandler() {
     setIsPending(!isPending);
