@@ -5,7 +5,13 @@ import './App.css';
 
 function App() {
   function fetchMoviesHandler () {
-      fetch("https://swapi.dev/api/films/") // get req by default & returns a promise
+      fetch("https://swapi.dev/api/films/").then(res => {
+        return res.json() // also returns a promise
+      }).then(
+        data => {
+          
+        }
+      )  // get req by default & returns a promise
   }
 
   return (
