@@ -1,17 +1,21 @@
-import React from 'react';
+import React from "react";
 
-import MoviesList from './components/MoviesList';
-import './App.css';
+import MoviesList from "./components/MoviesList";
+import "./App.css";
+import { useState } from "react";
+
 
 function App() {
-  function fetchMoviesHandler () {
-      fetch("https://swapi.dev/api/films/").then(res => {
-        return res.json() // also returns a promise
-      }).then(
-        data => {
-          
-        }
-      )  // get req by default & returns a promise
+  const [moviesList, setMoviesList] = useState()
+
+  function fetchMoviesHandler() {
+    fetch("https://swapi.dev/api/films/")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setMoviesList(data.results)
+      }); // get req by default & returns a promise
   }
 
   return (
