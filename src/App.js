@@ -1,24 +1,28 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
 import { useState } from "react";
+
+/* use effect for fetch requests if code rendered as part of component lifecycle  */
 
 function App() {
   const [movies, setMovies] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
 
-  async function fetchMoviesHandler() {
+
+
+ const fetchMoviesHandler = useCallback( async() => {
     setIsPending(!isPending);
     setError(null); // clear prev errors
 
     try {
-      const response = await fetch("https://swapi.dev/api/films/");
+      const response = await fetch("https://swapi.dev/api/films");
       if (!response.ok) {
-        throw new Error(`Ooops, Error: ${response.statusCode}`);
+        throw new Error(`Ooops, Error: ${response.status}`);
       }
-      
+
       const data = await response.json();
 
       const transformedMovies = data.results.map((movieData) => {
@@ -28,13 +32,28 @@ function App() {
           openingText: movieData.opening_crawl,
           releaseDate: movieData.release_date,
         };
-      });
+      })
       setMovies(transformedMovies);
       setIsPending(false);
     } catch (error) {
       setError(error.message);
     }
     setIsPending(false);
+  }, [])
+
+  useEffect(() => {
+    fetchMoviesHandler()
+  }, [fetchMoviesHandler])
+  let content = <p>No movies found</p>;
+
+  if (movies.length > 0) {
+    content = <MoviesList movies={movies} />;
+  }
+  if (error) {
+    content = <p>{error}</p>;
+  }
+  if (isPending) {
+    content = <p>Loading....</p>;
   }
 
   return (
@@ -42,12 +61,7 @@ function App() {
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
-      <section>
-        {!isPending && movies.length > 0 && <MoviesList movies={movies} />}
-        {!isPending && movies.length === 0 && <p>No movies found</p>}
-        {error && !isPending && <p>{error}</p>}
-        {isPending && !error && <p>LOADING...</p>}
-      </section>
+      <section>{content}</section>
     </React.Fragment>
   );
 }
