@@ -14,10 +14,11 @@ function App() {
     setError(null); // clear prev errors
 
     try {
+      const response = await fetch("https://swapi.dev/api/films/");
       if (!response.ok) {
         throw new Error(`Ooops, Error: ${response.statusCode}`);
       }
-      const response = await fetch("https://swapi.dev/api/films/");
+      
       const data = await response.json();
 
       const transformedMovies = data.results.map((movieData) => {
