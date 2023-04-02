@@ -5,7 +5,7 @@ import './App.css';
 
 function App() {
   function fetchMoviesHandler () {
-      fetch("https://swapi.dev/api/films/") // get req by default
+      fetch("https://swapi.dev/api/films/") // get req by default & returns a promise
   }
 
   return (
@@ -14,7 +14,7 @@ function App() {
         <button>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={dummyMovies} />
+        <MoviesList movies={MoviesList} />
       </section>
     </React.Fragment>
   );
